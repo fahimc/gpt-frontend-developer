@@ -9,6 +9,16 @@ AI Chat Developer is a unique project that integrates OpenAI's GPT-3 model to ac
 - **GPT-3 Integration**: Connects to OpenAI's GPT-3 model for intelligent responses.
 - **Development Tasks**: AI can create, update, and manage files/folders based on user requests.
 
+## AI Instructions:
+
+The AI has been instructed to act as a frontend developer working within the chat app. It is restricted to using specific functions to write code. The available functions are:
+
+- `createFile(filePath, content)`: Creates a file with the given path and content.
+- `createFolder(folderPath)`: Creates a folder at the specified path.
+- `updateFile(filePath, content)`: Updates an existing file with the provided content.
+
+The AI is expected to call these functions to execute the tasks requested by the user. It has been trained to understand and generate code based on these function calls.
+
 ## Getting Started:
 
 ### Prerequisites:
@@ -38,7 +48,9 @@ AI Chat Developer is a unique project that integrates OpenAI's GPT-3 model to ac
 - Start chatting with the AI developer!
 - you can view the generate projects here `http://localhost:3000/dev`.
 
-## Usage:Once the server is running and you've accessed the chat UI:
+## Usage:
+
+Once the server is running and you've accessed the chat UI:
 
 1. **Initial Message**: The AI will provide an initial message detailing its capabilities and how to interact with it.
 2. **Development Tasks**: You can ask the AI to perform various development tasks, such as creating a new project, adding files, or writing specific code.
