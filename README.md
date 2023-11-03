@@ -52,9 +52,14 @@ The AI is expected to call these functions to execute the tasks requested by the
 
 Once the server is running and you've accessed the chat UI:
 
-1. **Initial Message**: The AI will provide an initial message detailing its capabilities and how to interact with it.
-2. **Development Tasks**: You can ask the AI to perform various development tasks, such as creating a new project, adding files, or writing specific code.
-3. **Real-time Feedback**: The AI will respond in real-time, executing your requests and providing feedback or the generated code.
+1. **Development Tasks**: You can ask the AI to perform various development tasks, such as creating a new project, adding files, or writing specific code.
+   Example:
+
+```
+create me a hello world react app
+```
+
+2. **Real-time Feedback**: The AI will respond in real-time, executing your requests and providing feedback or the generated code.
 
 ## Contributing:
 

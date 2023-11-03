@@ -13,6 +13,7 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
 const chatHistories = new Map(); // Store chat history for each user
+const MAX_MESSAGES = 5; // Adjust this value based on your needs
 
 app.use(express.static("public"));
 // Serve the 'dev' folder and list its contents when browsing
@@ -124,7 +125,8 @@ io.on("connection", (socket) => {
         5. use CDN for react project dependencies.
         6. import statements will not work in the browser. Include scripts in the html.
         7. use babel cdn to ensure jsx is compiled in the browser.
-        8. only code you can provide is the method calls provided and only input string values and no variables. for example for a timestamp you must provide it like this '1699042023651'
+        8. only code you can provide is the method calls provided and only input string values and no variables. for example for a timestamp you must provide it like this '1699042023651'.
+        9. Update the code automatically to fix issues.
         `,
     },
   ]);
@@ -133,8 +135,16 @@ io.on("connection", (socket) => {
     const history = chatHistories.get(socket.id);
     history.push({ role: "user", content: message });
 
+    // Limit the number of messages sent to the API
+    let recentHistory;
+    if (history.length > MAX_MESSAGES) {
+      recentHistory = [history[0], ...history.slice(-MAX_MESSAGES + 1)]; // Keep the first message and the last (MAX_MESSAGES - 1) messages
+    } else {
+      recentHistory = history;
+    }
+
     const aiResponse = await openai.chat.completions.create({
-      messages: history,
+      messages: recentHistory,
       model: "gpt-3.5-turbo",
     });
 
