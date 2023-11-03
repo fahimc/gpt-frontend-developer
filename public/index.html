@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chat with AI</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        margin: 0;
+      }
+      #chat-box {
+        flex: 1;
+        overflow-y: auto;
+        border-bottom: 1px solid #ccc;
+        padding: 3%;
+        display: flex;
+        flex-direction: column;
+      }
+      #chat-input {
+        display: flex;
+        padding: 10px;
+        background-color: #f7f7f7;
+      }
+      textarea {
+        width: 80%;
+        padding: 5px;
+        resize: none;
+      }
+      .message {
+        padding: 20px;
+        width: 70%;
+        margin-bottom: 20px;
+        border-radius: 15px;
+        border-bottom-right-radius: 0;
+      }
+      .message.user {
+        background-color: #579ffb;
+        color: white;
+      }
+      .message.ai {
+        background-color: #f7f7f8;
+        align-self: flex-end;
+      }
+      button {
+        width: 20%;
+        padding: 10px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        cursor: pointer;
+      }
+      .username {
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="chat-box"></div>
+    <div id="chat-input">
+      <textarea
+        id="message-input"
+        rows="3"
+        placeholder="Type your message..."
+      ></textarea>
+      <button onclick="sendMessage()">Send</button>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      const socket = io.connect();
+
+      function sendMessage() {
+        const textarea = document.getElementById("message-input");
+        const chatBox = document.getElementById("chat-box");
+        chatBox.innerHTML += `<div class="message user"><div class="username">User</div><div>${textarea.value}<div></div>`;
+        socket.emit("message", textarea.value);
+        textarea.value = "";
+      }
+
+      socket.on("ai-response", (message) => {
+        const chatBox = document.getElementById("chat-box");
+        chatBox.innerHTML += `<div class="message ai"><div class="username">AI</div><div>${message}</div></div>`;
+        chatBox.scrollTop = chatBox.scrollHeight; // Auto-scroll to the latest message
+      });
+    </script>
+  </body>
+</html>
