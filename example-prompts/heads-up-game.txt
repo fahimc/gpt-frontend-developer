@@ -1,0 +1,17 @@
+
+create a kids heads up game in react with 100 random words for kids. make the words simple. add a start screen and buttons for correct answer and a skip button. show the number of correct answers and when the time runs out show how many was right. the app folder name should be game16
+
+updated code with a splash screen with a start button. style the app with a theme
+
+update code so the game is on timer. the users has to get as many correct within a time
+
+update code so the game is on timer. the users has to get as many correct within a time. Show the time and the number of correct answers
+
+update the code so when the time runs out it shows a end screen with the number of correct answers and a play again button
+
+
+update the app to use Verdana font and to be mobile friendly
+
+update the app with a good app name which is similar to 'heads up' but aimed at kids
+Design a user interface for a chat application that has the look and feel of a retro video game. The design should be engaging, colorful, and reminiscent of classic arcade games. Include elements like pixel art, game-like buttons, scoreboards, and any other features that would make the chat experience feel like a game.
+

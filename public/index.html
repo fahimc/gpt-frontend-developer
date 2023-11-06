@@ -36,6 +36,7 @@
         margin-bottom: 20px;
         border-radius: 15px;
         border-bottom-right-radius: 0;
+        white-space: pre-line; /* Add this line */
       }
       .message.user {
         background-color: #579ffb;
@@ -76,16 +77,26 @@
       function sendMessage() {
         const textarea = document.getElementById("message-input");
         const chatBox = document.getElementById("chat-box");
-        chatBox.innerHTML += `<div class="message user"><div class="username">User</div><div>${textarea.value}<div></div>`;
+        const userMessage = textarea.value.replace(/\n/g, "<br>"); // Replace newlines with <br> tags
+        chatBox.innerHTML += `<div class="message user"><div class="username">User</div><div>${userMessage}</div></div>`;
         socket.emit("message", textarea.value);
         textarea.value = "";
       }
 
       socket.on("ai-response", (message) => {
         const chatBox = document.getElementById("chat-box");
-        chatBox.innerHTML += `<div class="message ai"><div class="username">AI</div><div>${message}</div></div>`;
+        const aiMessage = escapeHtml(message).replace(/\n/g, "<br>"); // Replace newlines with <br> tags after escaping
+        chatBox.innerHTML += `<div class="message ai"><div class="username">AI</div><div>${aiMessage}</div></div>`;
         chatBox.scrollTop = chatBox.scrollHeight; // Auto-scroll to the latest message
       });
+      const escapeHtml = (unsafe) => {
+        return unsafe
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;")
+          .replaceAll("'", "&#039;");
+      };
     </script>
   </body>
 </html>

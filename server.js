@@ -31,6 +31,15 @@ function createFile(filePath, content) {
   fs.writeFileSync(fullFilePath, content);
 }
 
+function readFileContent(filePath) {
+  const fullFilePath = path.join("dev", filePath);
+  if (fs.existsSync(fullFilePath)) {
+    return fs.readFileSync(fullFilePath, "utf8");
+  } else {
+    return `Error: File ${fullFilePath} does not exist.`;
+  }
+}
+
 function createFolder(folderPath) {
   const fullFolderPath = path.join("dev", folderPath);
   if (!fs.existsSync(fullFolderPath)) {
@@ -41,7 +50,7 @@ function createFolder(folderPath) {
 function updateFile(filePath, content) {
   const fullFilePath = path.join("dev", filePath);
   if (fs.existsSync(fullFilePath)) {
-    fs.appendFileSync(fullFilePath, content);
+    fs.writeFileSync(fullFilePath, content);
   } else {
     console.error(`File ${fullFilePath} does not exist.`);
   }
@@ -133,6 +142,17 @@ io.on("connection", (socket) => {
 
   socket.on("message", async (message) => {
     const history = chatHistories.get(socket.id);
+
+    // Check for file read request
+    const fileReadPattern = /\[READ_FILE:(.*?)\]/;
+    const fileMatch = message.match(fileReadPattern);
+    if (fileMatch) {
+      const filePath = fileMatch[1];
+      const fileContent = readFileContent(filePath);
+      message = message.replace(fileReadPattern, fileContent);
+      console.log("read file content");
+    }
+
     history.push({ role: "user", content: message });
 
     // Limit the number of messages sent to the API
@@ -175,7 +195,7 @@ io.on("connection", (socket) => {
   // ... [rest of the code remains unchanged]
 });
 
-const PORT = 3000;
+const PORT = 8400;
 server.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
